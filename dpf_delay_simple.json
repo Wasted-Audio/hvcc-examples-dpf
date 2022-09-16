@@ -1,0 +1,17 @@
+{
+    "dpf": {
+        "dpf_path": "../",
+        "project": true,
+        "description": "Simple Delay",
+        "maker": "Wasted Audio",
+        "license": "ISC",
+        "midi_input": 0,
+        "midi_output": 0,
+        "plugin_formats": [
+            "lv2_dsp",
+            "vst2",
+            "vst3",
+            "jack"
+        ]
+    }
+}

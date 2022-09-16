@@ -1,3 +1,6 @@
 [submodule "examples"]
 	path = examples
 	url = git@github.com:Wasted-Audio/hvcc-examples.git
+[submodule "dpf"]
+	path = dpf
+	url = https://github.com/DISTRHO/DPF.git
