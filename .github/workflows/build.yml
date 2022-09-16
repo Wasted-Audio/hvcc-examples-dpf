@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@d2c55716dfb1895e387bea54de23c7b382740c4d
+        python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@d7288495d586c29daa86af56d2a8c0689162f9ae
 
     - name: Run hvcc
       run: hvcc dpf_delay_simple.pd -n delay_simple -m dpf_delay_simple.json -o delay_simple -g dpf -p examples
