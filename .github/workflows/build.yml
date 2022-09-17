@@ -8,6 +8,9 @@ on:
     branches:
       - '*'
 
+env:
+  HVCC_VERSION: 9d764b6c550d591ab1697cae776bf07388e9b1de
+
 jobs:
   linux-x86_64:
     runs-on: ubuntu-20.04
@@ -24,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@9213c3df7c8291ee2dfa1d92e8bdd0cd380e1550
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
 
       - name: Run hvcc
         run: hvcc dpf_delay_simple.pd -n delay_simple -m dpf_delay_simple.json -o delay_simple -g dpf -p examples
