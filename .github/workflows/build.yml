@@ -2,11 +2,6 @@ name: build
 
 on:
   push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
-      - '*'
 
 env:
   HVCC_VERSION: a7f94f56a0b0cba75c1edcce3ce92937ade069cc
@@ -30,14 +25,35 @@ jobs:
       - name: Build plugins
         run: |
           make WITH_LTO=true -j $(nproc)
-      - name: Set sha8
+      - name: Set sha8 (non-release)
+        if: startsWith(github.ref, 'refs/tags/') != true
+        id: slug1
+        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+      - name: Set tag (release)
+        if: startsWith(github.ref, 'refs/tags/')
+        id: slug2
+        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
+      - name: Set package tag
         id: slug
-        run: echo "::set-output name=sha8::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+      - name: Pack binaries
+        run: |
+          make binmove
+          tar -c -h  -z -f ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || steps.slug.outputs.sha8 }}
+          name: ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
           path: |
-            delay_simple/bin/*
+            *.tar.gz
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            *.tar.gz
 
   win64:
     runs-on: ubuntu-20.04
@@ -65,14 +81,35 @@ jobs:
           WINEDEBUG: "-all"
         run: |
           make WITH_LTO=true -j $(nproc)
-      - name: Set sha8
+      - name: Set sha8 (non-release)
+        if: startsWith(github.ref, 'refs/tags/') != true
+        id: slug1
+        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+      - name: Set tag (release)
+        if: startsWith(github.ref, 'refs/tags/')
+        id: slug2
+        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
+      - name: Set package tag
         id: slug
-        run: echo "::set-output name=sha8::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+      - name: Pack binaries
+        run: |
+          make binmove
+          tar -c -h -z -f ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || steps.slug.outputs.sha8 }}
+          name: ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
           path: |
-            delay_simple/bin/*
+            *.tar.gz
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            *.tar.gz
 
   macos-universal:
     runs-on: macos-10.15
@@ -100,15 +137,32 @@ jobs:
         run: |
           make NOOPT=true WITH_LTO=true -j $(sysctl -n hw.logicalcpu)
           ./dpf/utils/package-osx-bundles.sh
-      - name: Set sha8
+      - name: Set sha8 (non-release)
+        if: startsWith(github.ref, 'refs/tags/') != true
+        id: slug1
+        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+      - name: Set tag (release)
+        if: startsWith(github.ref, 'refs/tags/')
+        id: slug2
+        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
+      - name: Set package tag
         id: slug
-        run: echo "::set-output name=sha8::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+      - name: Pack binaries
+        run: |
+          make binmove
+          tar -c -h -z -f ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || steps.slug.outputs.sha8 }}
+          name: ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
           path: |
-            delay_simple/*-macOS.pkg
-            delay_simple/bin/*
-            !delay_simple/bin/lv2
-            !delay_simple/bin/vst2
-            !delay_simple/bin/vst3
+            *.tar.gz
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            *.tar.gz
