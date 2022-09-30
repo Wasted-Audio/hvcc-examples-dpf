@@ -9,7 +9,7 @@ on:
       - '*'
 
 env:
-  HVCC_VERSION: 9d764b6c550d591ab1697cae776bf07388e9b1de
+  HVCC_VERSION: a7f94f56a0b0cba75c1edcce3ce92937ade069cc
 
 jobs:
   linux-x86_64:
