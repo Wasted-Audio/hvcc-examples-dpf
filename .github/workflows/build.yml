@@ -2,6 +2,8 @@ name: build
 
 on:
   push:
+  repository_dispatch:
+    types: [nightly]
 
 env:
   HVCC_VERSION: a7f94f56a0b0cba75c1edcce3ce92937ade069cc
@@ -18,10 +20,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install dependencies
+      - run: python -m pip install -U pip
+      
+      - name: Install pinned hvcc
         run: |
-          python -m pip install --upgrade pip
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install develop hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+      
       - name: Build plugins
         run: |
           make WITH_LTO=true -j $(nproc)
@@ -66,12 +75,22 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+      - run: python -m pip install -U pip
+      
+      - name: Install pinned hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install nightly hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+      
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
           sudo apt-get update -qq
           sudo apt-get install -yqq binutils-mingw-w64-x86-64 g++-mingw-w64-x86-64 mingw-w64 wine-stable
+      
       - name: Build win64 cross-compiled plugins
         env:
           CC: x86_64-w64-mingw32-gcc
@@ -125,10 +144,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install dependencies
+      - run: python -m pip install -U pip
+      
+      - name: Install pinned hvcc
         run: |
-          python -m pip install --upgrade pip
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install nightly hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+      
       - name: Build macOS universal plugins
         env:
           CFLAGS: -arch x86_64 -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=MAC_OS_X_VERSION_10_12 -mmacosx-version-min=10.12 -mtune=generic -msse -msse2
