@@ -13,15 +13,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - run: python -m pip install -U pip
-      
+
       - name: Install pinned hvcc
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
@@ -30,28 +30,27 @@ jobs:
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
         if: ${{ github.event.client_payload.nightly }}
-      
+
       - name: Build plugins
         run: |
           make WITH_LTO=true -j $(nproc)
+
       - name: Set sha8 (non-release)
         if: startsWith(github.ref, 'refs/tags/') != true
         id: slug1
-        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "action_tag=$(echo ${{ github.sha }} | cut -c1-8)" >> $GITHUB_ENV
       - name: Set tag (release)
         if: startsWith(github.ref, 'refs/tags/')
         id: slug2
-        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
-      - name: Set package tag
-        id: slug
-        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+        run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
+
       - name: Pack binaries
         run: |
           make binmove
-          tar -c -h  -z -f ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
-      - uses: actions/upload-artifact@v2
+          tar -c -h  -z -f ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || env.action_tag }}.tar.gz bin/ README.md LICENSE
+      - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
+          name: ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || env.action_tag }}
           path: |
             *.tar.gz
       - uses: softprops/action-gh-release@v1
@@ -68,15 +67,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - run: python -m pip install -U pip
-      
+
       - name: Install pinned hvcc
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
@@ -85,12 +84,12 @@ jobs:
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
         if: ${{ github.event.client_payload.nightly }}
-      
+
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
           sudo apt-get install -yqq binutils-mingw-w64-x86-64 g++-mingw-w64-x86-64 mingw-w64 wine-stable
-      
+
       - name: Build win64 cross-compiled plugins
         env:
           CC: x86_64-w64-mingw32-gcc
@@ -100,24 +99,23 @@ jobs:
           WINEDEBUG: "-all"
         run: |
           make WITH_LTO=true -j $(nproc)
+
       - name: Set sha8 (non-release)
         if: startsWith(github.ref, 'refs/tags/') != true
         id: slug1
-        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "action_tag=$(echo ${{ github.sha }} | cut -c1-8)" >> $GITHUB_ENV
       - name: Set tag (release)
         if: startsWith(github.ref, 'refs/tags/')
         id: slug2
-        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
-      - name: Set package tag
-        id: slug
-        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+        run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
+
       - name: Pack binaries
         run: |
           make binmove
-          tar -c -h -z -f ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
-      - uses: actions/upload-artifact@v2
+          tar -c -h -z -f ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || env.action_tag }}.tar.gz bin/ README.md LICENSE
+      - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
+          name: ${{ github.event.repository.name }}-win64-${{ github.event.pull_request.number || env.action_tag }}
           path: |
             *.tar.gz
       - uses: softprops/action-gh-release@v1
@@ -131,21 +129,17 @@ jobs:
             *.tar.gz
 
   macos-universal:
-    runs-on: macos-10.15
+    runs-on: macos-11
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - name: Fix up Xcode
-        run: |
-          sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*
-          sudo xcode-select -s "/Applications/Xcode_12.3.app"
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - run: python -m pip install -U pip
-      
+
       - name: Install pinned hvcc
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
@@ -154,7 +148,7 @@ jobs:
         run: |
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
         if: ${{ github.event.client_payload.nightly }}
-      
+
       - name: Build macOS universal plugins
         env:
           CFLAGS: -arch x86_64 -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=MAC_OS_X_VERSION_10_12 -mmacosx-version-min=10.12 -mtune=generic -msse -msse2
@@ -163,24 +157,23 @@ jobs:
         run: |
           make NOOPT=true WITH_LTO=true -j $(sysctl -n hw.logicalcpu)
           ./dpf/utils/package-osx-bundles.sh
+
       - name: Set sha8 (non-release)
         if: startsWith(github.ref, 'refs/tags/') != true
         id: slug1
-        run: echo "::set-output name=tag::$(echo ${{ github.sha }} | cut -c1-8)"
+        run: echo "action_tag=$(echo ${{ github.sha }} | cut -c1-8)" >> $GITHUB_ENV
       - name: Set tag (release)
         if: startsWith(github.ref, 'refs/tags/')
         id: slug2
-        run: echo "::set-output name=tag::$(echo ${{ github.ref_name }})"
-      - name: Set package tag
-        id: slug
-        run: echo "::set-output name=tag::$( echo ${{ steps.slug1.outputs.tag || steps.slug2.outputs.tag }})"
+        run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
+
       - name: Pack binaries
         run: |
           make binmove
-          tar -c -h -z -f ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || steps.slug.outputs.tag }}.tar.gz bin/ README.md LICENSE
-      - uses: actions/upload-artifact@v2
+          tar -c -h -z -f ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || env.action_tag }}.tar.gz bin/ README.md LICENSE
+      - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || steps.slug.outputs.tag }}
+          name: ${{ github.event.repository.name }}-macOS-universal-${{ github.event.pull_request.number || env.action_tag }}
           path: |
             *.tar.gz
       - uses: softprops/action-gh-release@v1
