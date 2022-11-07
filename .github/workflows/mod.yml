@@ -66,7 +66,7 @@ jobs:
 
       - name: Pack binaries
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}.tar.g -C bin $(ls bin | grep lv2)
+          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}
@@ -137,7 +137,7 @@ jobs:
 
       - name: Pack binaries
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}.tar.g -C bin $(ls bin | grep lv2)
+          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}
@@ -208,7 +208,7 @@ jobs:
 
       - name: Pack binaries
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}.tar.g -C bin $(ls bin | grep lv2)
+          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}
