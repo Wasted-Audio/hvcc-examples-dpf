@@ -64,23 +64,27 @@ jobs:
         id: slug2
         run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
 
-      - name: Pack binaries
+      - name: list files
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}
-          path: |
-            *.tar.gz
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: |
-            *.tar.gz
+          tree
+
+      # - name: Pack binaries
+      #   run: |
+      #     tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ github.event.repository.name }}-modduo-${{ github.event.pull_request.number || env.action_tag }}
+      #     path: |
+      #       *.tar.gz
+      # - uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     tag_name: ${{ github.ref_name }}
+      #     name: ${{ github.ref_name }}
+      #     draft: false
+      #     prerelease: false
+      #     files: |
+      #       *.tar.gz
 
   modduox:
     runs-on: ubuntu-20.04
@@ -135,23 +139,27 @@ jobs:
         id: slug2
         run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
 
-      - name: Pack binaries
+      - name: list files
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}
-          path: |
-            *.tar.gz
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: |
-            *.tar.gz
+          tree
+
+      # - name: Pack binaries
+      #   run: |
+      #     tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ github.event.repository.name }}-modduox-${{ github.event.pull_request.number || env.action_tag }}
+      #     path: |
+      #       *.tar.gz
+      # - uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     tag_name: ${{ github.ref_name }}
+      #     name: ${{ github.ref_name }}
+      #     draft: false
+      #     prerelease: false
+      #     files: |
+      #       *.tar.gz
 
   moddwarf:
     runs-on: ubuntu-20.04
@@ -206,20 +214,24 @@ jobs:
         id: slug2
         run: echo "action_tag=$(echo ${{ github.ref_name }})" >> $GITHUB_ENV
 
-      - name: Pack binaries
+      - name: list files
         run: |
-          tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}
-          path: |
-            *.tar.gz
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: |
-            *.tar.gz
+          tree
+
+      # - name: Pack binaries
+      #   run: |
+      #     tar -c -h --hard-dereference -z -f ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}.tar.g $(ls bin | grep lv2)
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ github.event.repository.name }}-moddwarf-${{ github.event.pull_request.number || env.action_tag }}
+      #     path: |
+      #       *.tar.gz
+      # - uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     tag_name: ${{ github.ref_name }}
+      #     name: ${{ github.ref_name }}
+      #     draft: false
+      #     prerelease: false
+      #     files: |
+      #       *.tar.gz
