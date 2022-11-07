@@ -47,7 +47,7 @@ jobs:
       - name: Pack binaries
         run: |
           make binmove
-          tar -c -h  -z -f ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || env.action_tag }}.tar.gz bin/ README.md LICENSE
+          tar -c -h -z -f ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || env.action_tag }}.tar.gz bin/ README.md LICENSE
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-linux-x86_64-${{ github.event.pull_request.number || env.action_tag }}
