@@ -35,6 +35,22 @@ jobs:
           git clone --depth=1 https://github.com/moddevices/mod-plugin-builder.git deps/mod-plugin-builder
           sed -i "s/CT_LOG_PROGRESS_BAR=y/CT_LOG_PROGRESS_BAR=n/" deps/mod-plugin-builder/toolchain/*.config
           $(pwd)/deps/mod-plugin-builder/bootstrap.sh modduo-static minimal && $(pwd)/deps/mod-plugin-builder/.clean-install.sh modduo-static
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - run: python -m pip install -U pip
+
+      - name: Install pinned hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install develop hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+
       - name: Build for modduo
         run: |
           make modduo HEADLESS=true WITH_LTO=${{ env.WITH_LTO }} MODDUO=true -j $(nproc)
@@ -90,6 +106,22 @@ jobs:
           git clone --depth=1 https://github.com/moddevices/mod-plugin-builder.git deps/mod-plugin-builder
           sed -i "s/CT_LOG_PROGRESS_BAR=y/CT_LOG_PROGRESS_BAR=n/" deps/mod-plugin-builder/toolchain/*.config
           $(pwd)/deps/mod-plugin-builder/bootstrap.sh modduox-static minimal && $(pwd)/deps/mod-plugin-builder/.clean-install.sh modduox-static
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - run: python -m pip install -U pip
+
+      - name: Install pinned hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install develop hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+
       - name: Build for modduox
         run: |
           make modduox HEADLESS=true WITH_LTO=${{ env.WITH_LTO }} -j $(nproc)
@@ -145,6 +177,22 @@ jobs:
           git clone --depth=1 https://github.com/moddevices/mod-plugin-builder.git deps/mod-plugin-builder
           sed -i "s/CT_LOG_PROGRESS_BAR=y/CT_LOG_PROGRESS_BAR=n/" deps/mod-plugin-builder/toolchain/*.config
           $(pwd)/deps/mod-plugin-builder/bootstrap.sh moddwarf minimal && $(pwd)/deps/mod-plugin-builder/.clean-install.sh moddwarf
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - run: python -m pip install -U pip
+
+      - name: Install pinned hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
+        if: ${{ !github.event.client_payload.nightly }}
+      - name: Install develop hvcc
+        run: |
+          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
+        if: ${{ github.event.client_payload.nightly }}
+
       - name: Build for moddwarf
         run: |
           make moddwarf HEADLESS=true WITH_LTO=${{ env.WITH_LTO }} -j $(nproc)
