@@ -6,9 +6,9 @@ on:
     types: [nightly]
 
 env:
-  HVCC_VERSION: 1499fda6e3a6ae5b8c0ecd29df05d9bc5e72dac7
+  HVCC_VERSION: 80a8407686a7eaa7c4a2690034d5e4f517369302
   CACHE_VERSION: 1
-  WITH_LTA: 'false'
+  WITH_LTO: 'false'
 
 jobs:
   modduo:
