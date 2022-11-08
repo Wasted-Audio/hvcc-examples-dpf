@@ -1,0 +1,18 @@
+{
+    "dpf": {
+        "dpf_path": "../",
+        "project": true,
+        "description": "Simple Synth",
+        "maker": "Wasted Audio",
+        "license": "ISC",
+        "midi_input": 1,
+        "midi_output": 0,
+        "plugin_formats": [
+            "lv2_dsp",
+            "vst2",
+            "vst3",
+            "clap",
+            "jack"
+        ]
+    }
+}
