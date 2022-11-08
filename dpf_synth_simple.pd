@@ -1,4 +1,4 @@
-#N canvas 927 191 469 456 12;
+#N canvas 132 251 776 543 12;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X text 0 0 plugdatainfo <?xml version="1.0" encoding="UTF-8"?> <PlugDataInfo/>
 ;
@@ -8,12 +8,16 @@
 #X obj -209 183 mtof;
 #X obj -208 274 dac~;
 #X obj -209 148 stripnote;
+#X obj -71 127 sel 0;
 #X obj -201 216 examples/synth_simple;
-#X connect 1 0 4 0;
-#X connect 1 1 4 1;
-#X connect 1 1 5 2;
-#X connect 2 0 5 0;
+#X obj -198 95 pack;
+#X connect 1 0 7 0;
+#X connect 1 1 5 0;
+#X connect 1 1 7 1;
+#X connect 2 0 6 0;
 #X connect 4 0 2 0;
-#X connect 4 1 5 1;
-#X connect 5 0 3 0;
-#X connect 5 0 3 1;
+#X connect 4 1 6 1;
+#X connect 5 0 6 2;
+#X connect 6 0 3 0;
+#X connect 6 0 3 1;
+#X connect 7 0 4 0;
