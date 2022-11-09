@@ -1,0 +1,25 @@
+#N canvas 267 334 769 574 12;
+#X obj 252 96 notein;
+#X obj 229 235 mtof;
+#X obj 220 414 dac~;
+#X obj 229 200 stripnote;
+#X obj 373 199 sel 0;
+#X obj 229 268 examples/synth_simple;
+#X obj 229 150 pack;
+#X obj 259 302 r Volume @hv_param 0 1 0.75;
+#X obj 230 367 *~;
+#X obj 259 332 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3700 1;
+#X connect 0 0 6 0;
+#X connect 0 1 4 0;
+#X connect 0 1 6 1;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 1 5 1;
+#X connect 4 0 5 2;
+#X connect 5 0 8 0;
+#X connect 6 0 3 0;
+#X connect 7 0 9 0;
+#X connect 8 0 2 0;
+#X connect 8 0 2 1;
+#X connect 9 0 8 1;
