@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_VERSION: 56cdfe6c7c28ddb1910572d4c581acccf7ab9a63
+  HVCC_VERSION: 2c384341745d3e66401468d5ac508a1b9fd6b0e6
   CACHE_VERSION: 1
   WITH_LTO: 'false'
 
