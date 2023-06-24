@@ -33,6 +33,11 @@ jobs:
           python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
         if: ${{ github.event.client_payload.nightly }}
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -yqq libgl1-mesa-dev
+
       - name: Build plugins
         run: |
           make WITH_LTO=true -j $(nproc)
