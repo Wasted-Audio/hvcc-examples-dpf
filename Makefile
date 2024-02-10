@@ -4,7 +4,6 @@ PLUGINS = delay_simple synth_simple
 
 
 plugins: hvcc
-	$(foreach var, $(PLUGINS), make -C $(var)/ features;)
 	$(foreach var, $(PLUGINS), make -C $(var)/ $(MAKECMDGOALS);)
 
 hvcc:
