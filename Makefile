@@ -13,7 +13,3 @@ plugins: hvcc
 
 hvcc:
 	$(foreach var, $(PLUGINS), hvcc dpf_$(var).pd -n $(var) -m dpf_$(var).json -o $(var) -g dpf -p examples -p examples/heavylib;)
-
-modduo: all
-modduox: all
-moddwarf: all
