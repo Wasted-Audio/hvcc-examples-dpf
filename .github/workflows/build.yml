@@ -6,9 +6,8 @@ on:
     types: [nightly]
 
 env:
-  HVCC_VERSION: 89446f737e2b8bc7794fbdd4de2dcce2cb43c874
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 89446f737e2b8bc7794fbdd4de2dcce2cb43c874 }}"
   CACHE_VERSION: 1
-  WITH_LTO: 'false'
 
 jobs:
   linux:
@@ -27,18 +26,10 @@ jobs:
           python-version: 3.11
       - run: python -m pip install -U pip
 
-      - name: Install pinned hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
-        if: ${{ !github.event.client_payload.nightly }}
-      - name: Install develop hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
-        if: ${{ github.event.client_payload.nightly }}
-
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: ${{ matrix.target }}
+          hvcc: True
 
   windows:
     strategy:
@@ -56,18 +47,10 @@ jobs:
           python-version: 3.11
       - run: python -m pip install -U pip
 
-      - name: Install pinned hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
-        if: ${{ !github.event.client_payload.nightly }}
-      - name: Install nightly hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
-        if: ${{ github.event.client_payload.nightly }}
-
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: ${{ matrix.target }}
+          hvcc: True
 
   macos:
     strategy:
@@ -84,18 +67,10 @@ jobs:
           python-version: 3.11
       - run: python -m pip install -U pip
 
-      - name: Install pinned hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
-        if: ${{ !github.event.client_payload.nightly }}
-      - name: Install nightly hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
-        if: ${{ github.event.client_payload.nightly }}
-
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: ${{ matrix.target }}
+          hvcc: True
 
   pluginval:
     runs-on: ubuntu-20.04
@@ -109,18 +84,10 @@ jobs:
           python-version: 3.11
       - run: python -m pip install -U pip
 
-      - name: Install pinned hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ env.HVCC_VERSION }}
-        if: ${{ !github.event.client_payload.nightly }}
-      - name: Install nightly hvcc
-        run: |
-          python -m pip install git+https://github.com/Wasted-Audio/hvcc.git@${{ github.event.client_payload.branch }}
-        if: ${{ github.event.client_payload.nightly }}
-
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: pluginval
+          hvcc: True
 
   source:
     runs-on: ubuntu-20.04
