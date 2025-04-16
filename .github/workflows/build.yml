@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '44708e75e2f7ddfcf4b6629b3693bcb6e0bd5358' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'e2b65bd0b81e04b7f88a481efc286dd4fb4a15b6' }}"
   CACHE_VERSION: 1
 
 jobs:
@@ -25,6 +25,8 @@ jobs:
           curl -sLO https://launchpad.net/~kxstudio-debian/+archive/ubuntu/toolchain/+files/git-man_2.34.1-1ubuntu1~bpo20.04.1~ppa1_all.deb
           dpkg -i *.deb
           rm *.deb
+      - name: Install pip
+        run: apt-get install -yqq --no-install-recommends python3-pip
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
