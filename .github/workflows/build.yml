@@ -25,6 +25,8 @@ jobs:
           curl -sLO https://launchpad.net/~kxstudio-debian/+archive/ubuntu/toolchain/+files/git-man_2.34.1-1ubuntu1~bpo20.04.1~ppa1_all.deb
           dpkg -i *.deb
           rm *.deb
+      - name: Set default python
+        run: update-alternatives --set python /usr/bin/python3.9
       - name: Install pip
         run: apt-get install -yqq --no-install-recommends python3-pip
       - name: Checkout repository
