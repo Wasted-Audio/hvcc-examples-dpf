@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '44708e75e2f7ddfcf4b6629b3693bcb6e0bd5358' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '0a07c5a8274fe22be1a019aa1b8ae2a0df2f6e81' }}"
   CACHE_VERSION: 1
 
 jobs:
