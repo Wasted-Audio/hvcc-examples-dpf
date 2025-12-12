@@ -61,11 +61,16 @@ jobs:
     strategy:
       matrix:
         target: [macos-intel, macos-universal]
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - uses: innodatalabs/action-pip-conf@1.0.0
+        with:
+            pip-conf: "[global]\nbreak-system-packages = true"
+
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: ${{ matrix.target }}
