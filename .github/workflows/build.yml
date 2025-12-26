@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '1a607e5d98643138a0305578b3b6ca82fb1549a0' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'fa11fb057b694ef859af0993db707115303458ab' }}"
   CACHE_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   GIT_LFS_SKIP_SMUDGE: 1
