@@ -6,8 +6,8 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '1a607e5d98643138a0305578b3b6ca82fb1549a0' }}"
-  CACHE_VERSION: 1
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'fa11fb057b694ef859af0993db707115303458ab' }}"
+  CACHE_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   GIT_LFS_SKIP_SMUDGE: 1
 
@@ -61,7 +61,7 @@ jobs:
     strategy:
       matrix:
         target: [macos-intel, macos-universal]
-    runs-on: macos-14
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
         with:
