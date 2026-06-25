@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'fa11fb057b694ef859af0993db707115303458ab' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'cf3c3e536b8a901a28121fa9f2758b7479fc25de' }}"
   CACHE_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   GIT_LFS_SKIP_SMUDGE: 1
@@ -34,7 +34,7 @@ jobs:
       - name: Install pip
         run: apt-get install -yqq --no-install-recommends python3-pip
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
       - uses: distrho/dpf-makefile-action@v1
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
       - uses: distrho/dpf-makefile-action@v1
@@ -63,7 +63,7 @@ jobs:
         target: [macos-intel, macos-universal]
     runs-on: macos-15-intel
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
 
@@ -79,7 +79,7 @@ jobs:
   pluginval:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
       - uses: distrho/dpf-makefile-action@v1
@@ -90,7 +90,7 @@ jobs:
   source:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
       - uses: distrho/dpf-makefile-action@v1

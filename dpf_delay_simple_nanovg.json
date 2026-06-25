@@ -2,8 +2,8 @@
     "dpf": {
         "dpf_path": "../",
         "project": true,
-        "enable_ui": 1,
-        "description": "Simple Delay",
+        "enable_ui": 2,
+        "description": "Simple Delay NanoVG",
         "maker": "Wasted Audio",
         "license": "ISC",
         "midi_input": 0,
