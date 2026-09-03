@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '36fa85aed0c52f38f0ca076857435a5d09e13940' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '8f754b10abaec5308e1700e414461b6c4a5ff35a' }}"
   CACHE_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   GIT_LFS_SKIP_SMUDGE: 1
@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         target: [linux-arm64, linux-armhf, linux-i686, linux-riscv64, linux-x86_64]
-    runs-on: ubuntu:22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
