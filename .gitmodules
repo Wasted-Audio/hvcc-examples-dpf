@@ -7,3 +7,6 @@
 [submodule "dpf-widgets"]
 	path = dpf-widgets
 	url = https://github.com/DISTRHO/DPF-Widgets.git
+[submodule "pdvg"]
+	path = pdvg
+	url = git@github.com:Wasted-Audio/PDVG.git

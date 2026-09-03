@@ -2,7 +2,7 @@
     "dpf": {
         "dpf_path": "../",
         "project": true,
-        "enable_ui": true,
+        "enable_ui": 1,
         "description": "Simple Synth",
         "maker": "Wasted Audio",
         "license": "ISC",
