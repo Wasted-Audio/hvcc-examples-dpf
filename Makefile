@@ -7,7 +7,9 @@ features: hvcc
 	$(foreach var, $(PLUGINS), make -C $(var)/ features;)
 
 plugins: hvcc
-	$(foreach var, $(PLUGINS), make -C $(var)/ $(MAKECMDGOALS) DPF_BUILD_DIR=$(CURDIR)/build/$(var) DPF_TARGET_DIR=$(CURDIR)/bin;)
+	$(foreach var, $(PLUGINS), make -C $(var)/ $(MAKECMDGOALS);)
+	mkdir bin
+	$(foreach var, $(PLUGINS), mv $(var)/bin/* bin/;)
 
 hvcc:
 	$(foreach var, $(PLUGINS), hvcc dpf_$(var).pd -n $(var) -m dpf_$(var).json -o $(var) -g dpf -p examples -p examples/heavylib --gui;)
