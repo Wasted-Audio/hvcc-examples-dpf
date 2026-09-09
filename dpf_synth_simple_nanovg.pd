@@ -9,7 +9,7 @@
 #X obj -327 437 sig~;
 #X obj 0 0 cnv 15 377 311 empty empty Simple\ Synth\ Plugin 46 41 0 35 #0d1321 #f0ebd8 0;
 #X obj 283 88 cnv 15 72 33 empty empty Volume -4 18 0 25 #0d1321 #f0ebd8 0;
-#X obj 150 137 knob 105 0 2 0 0 empty Resonance\ @hv_param\ 0\ 2\ 1 #1d2d44 #3e5c76 #748cab 0 0 0 0 1 270 0 0 0 empty empty 1 30 10 110 0 1 0 0 0 0 0;
+#X obj 150 137 knob 105 0 2 0 0 empty Resonance\ @hv_param\ 0\ 2\ 1 #1d2d44 #3e5c76 #748cab 0 0 0 0 1 270 0 0 0 empty empty 1 30 29 110 0 1 0 0 0 0 0;
 #X obj 150 88 cnv 15 72 33 empty empty Resonance -4 18 0 25 #0d1321 #f0ebd8 0;
 #X obj 21 137 knob 105 20 20000 1 20 empty Frequency\ @hv_param\ 20\ 20000\ 2000\ log #1d2d44 #3e5c76 #748cab 0 0 0 0 1 270 0 0 20 empty empty 1 30 10 110 0 1 0 0 0 0 20;
 #X obj 21 88 cnv 15 72 33 empty empty Frequency -4 18 0 25 #0d1321 #f0ebd8 0;
