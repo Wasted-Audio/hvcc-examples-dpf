@@ -1,5 +1,5 @@
 #N canvas 827 239 418 303 12;
-#X obj -2 -3 cnv 15 422 307 empty empty Simple\ Reverb 57 40 0 50 #a5ba4a #f6d1c4 0;
+#X obj -2 -3 cnv 15 422 307 empty empty Simple\ Reverb\ Plugin 40 40 0 40 #a5ba4a #f6d1c4 0;
 #X obj 270 696 hv.reverb~;
 #X obj 270 765 dac~;
 #X obj 270 616 adc~;
@@ -50,9 +50,9 @@
 #X obj 31 109 cnv 15 55 27 empty empty Size 0 10 0 30 #a5ba4a #f6d1c4 0;
 #X obj 173 109 cnv 15 55 27 empty empty Dry 0 10 0 30 #a5ba4a #f6d1c4 0;
 #X obj 289 109 cnv 15 55 27 empty empty Wet 0 10 0 30 #a5ba4a #f6d1c4 0;
-#X obj 76 149 cnv 15 55 27 empty empty Small 0 10 0 20 #a5ba4a #f6d1c4 0;
-#X obj 76 185 cnv 15 55 27 empty empty Medium 0 10 0 20 #a5ba4a #f6d1c4 0;
-#X obj 76 221 cnv 15 55 27 empty empty Large 0 10 0 20 #a5ba4a #f6d1c4 0;
+#X obj 76 158 cnv 15 55 18 empty empty Small 0 10 0 20 #a5ba4a #f6d1c4 0;
+#X obj 76 190 cnv 15 55 22 empty empty Medium 0 10 0 20 #a5ba4a #f6d1c4 0;
+#X obj 76 223 cnv 15 55 25 empty empty Large 0 10 0 20 #a5ba4a #f6d1c4 0;
 #X connect 1 0 2 0;
 #X connect 1 1 2 1;
 #X connect 3 0 1 0;
