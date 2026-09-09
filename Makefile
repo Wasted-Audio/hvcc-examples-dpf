@@ -1,6 +1,6 @@
 all: hvcc plugins
 
-PLUGINS = delay_simple synth_simple delay_simple_nanovg synth_simple_nanovg
+PLUGINS = delay_simple synth_simple reverb_simple delay_simple_nanovg synth_simple_nanovg reverb_simple_nanovg
 
 
 features: hvcc

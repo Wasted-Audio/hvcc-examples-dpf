@@ -1,5 +1,5 @@
 # Heavy Examples for DPF
----
+
 This repository contains Heavy compatible Pure Data patches that can be used with the Distrho Plugin Framework (DPF) generator.
 
 There are builds for at least LV2, VST2, VST3, and CLAP on all major Operating Systems. Linux, Windows and MacOS.
@@ -27,3 +27,13 @@ Dear ImGui generated:
 NanoVG converted:
 
 ![Simple Synth NanoVG](synth_simple_nanovg.png)
+
+## Simple Reverb
+
+Dear ImGui Generated:
+
+![Simple Reverb](reverb_simple.png)
+
+NanoVG converted:
+
+![Simpe Reverb NanoVG](reverb_simple_nanovg.png)
