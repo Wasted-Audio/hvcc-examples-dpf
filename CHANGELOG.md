@@ -1,7 +1,7 @@
 Changelog
 =====
 
-Next Release
+0.5.0
 -----
 
 - Add Simple Reverb (two UI variants)
