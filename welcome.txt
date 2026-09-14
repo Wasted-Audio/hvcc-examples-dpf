@@ -1,0 +1,7 @@
+@name@
+
+This is a collection of example plugins for the Heavy Compiler using DPF. It contains 2 variants for each plugin. One using Dear ImGui and one using NanoVG.
+
+- Simple Delay
+- Simple Synth
+- Simple Reverb
