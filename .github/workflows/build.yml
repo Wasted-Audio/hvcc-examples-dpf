@@ -6,7 +6,7 @@ on:
     types: [nightly]
 
 env:
-  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || '8f754b10abaec5308e1700e414461b6c4a5ff35a' }}"
+  HVCC_COMMIT_HASH: "${{ github.event.client_payload.nightly && github.event.client_payload.branch || 'eab81267f21b0d967f4172d9e83107bc3002c797' }}"
   CACHE_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   GIT_LFS_SKIP_SMUDGE: 1
@@ -56,7 +56,31 @@ jobs:
         with:
             pip-conf: "[global]\nbreak-system-packages = true"
 
+      - name: Import APP Certificates
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          keychain-password : ${{ secrets.MACOS_KEYCHAIN_PASS }}
+          p12-file-base64: ${{ secrets.MACOS_APP_DEV_P12 }}
+          p12-password: ${{ secrets.MACOS_APP_DEV_PASS }}
+
+      - name: Import INST Certificates
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          keychain-password : ${{ secrets.MACOS_KEYCHAIN_PASS }}
+          create-keychain : false
+          p12-file-base64: ${{ secrets.MACOS_INSTALLER_DEV_P12 }}
+          p12-password: ${{ secrets.MACOS_INSTALLER_DEV_PASS }}
+
       - uses: distrho/dpf-makefile-action@v1
+        env:
+          MACOS_PKG_NAME: "hvcc-examples-dpf"
+          MACOS_PKG_LICENSE_FILE: "${{ github.workspace }}/LICENSE"
+          MACOS_PKG_WELCOME_TXT: "${{ github.workspace }}/welcome.txt"
+          MACOS_APP_DEV_ID: ${{ secrets.MACOS_APP_DEV_ID }}
+          MACOS_INSTALLER_DEV_ID: ${{ secrets.MACOS_INSTALLER_DEV_ID }}
+          MACOS_NOTARIZATION_USER: ${{ secrets.MACOS_NOTARIZATION_USER }}
+          MACOS_NOTARIZATION_PASS: ${{ secrets.MACOS_NOTARIZATION_PASS }}
+          MACOS_NOTARIZATION_TEAM: ${{ secrets.MACOS_NOTARIZATION_TEAM }}
         with:
           target: ${{ matrix.target }}
           hvcc: True
