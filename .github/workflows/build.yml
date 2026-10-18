@@ -32,12 +32,15 @@ jobs:
           echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/ports-armhf.list
           echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/ports-armhf.list
           sudo apt-get update
-          # no -yqq, no --allow-downgrades: let apt print the full unmet-dependency list
-          sudo apt-get install -y g++-arm-linux-gnueabihf \
-            libasound2-dev:armhf libdbus-1-dev:armhf libgl1-mesa-dev:armhf \
-            libglib2.0-dev:armhf liblo-dev:armhf libx11-dev:armhf \
-            libxcursor-dev:armhf libxext-dev:armhf libxrandr-dev:armhf \
-            gperf qemu-user-static || true
+          sudo apt-cache policy libc6 libc6:armhf libgcc-s1:armhf libstdc++6:armhf libsystemd0:armhf libx11-6:armhf || true
+          sudo apt-get install -y -o Debug::pkgProblemResolver=yes \
+            libc6:armhf libgcc-s1:armhf libstdc++6:armhf \
+            libsystemd0:armhf libbsd0:armhf libmd0:armhf \
+            libx11-6:armhf libx11-xcb1:armhf \
+            g++-arm-linux-gnueabihf libasound2-dev:armhf libdbus-1-dev:armhf \
+            libgl1-mesa-dev:armhf libglib2.0-dev:armhf liblo-dev:armhf \
+            libx11-dev:armhf libxcursor-dev:armhf libxext-dev:armhf \
+            libxrandr-dev:armhf gperf qemu-user-static || true
           sudo apt-get clean
       - uses: distrho/dpf-makefile-action@v1
         with:
