@@ -17,31 +17,17 @@ jobs:
       matrix:
         target: [linux-arm64, linux-armhf, linux-i686, linux-riscv64, linux-x86_64]
     runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:22.04
     steps:
+      - name: Install git
+        run: |
+          apt-get update -qq && apt-get install -yqq --no-install-recommends \
+            ca-certificates curl git openssl python3 python3-pip
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Debug armhf apt dependencies
-        run: |
-          set -x
-          sudo dpkg --add-architecture armhf
-          sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list
-          sudo sed -i "s/deb mirror/deb [arch=amd64] mirror/" /etc/apt/sources.list
-          echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy main restricted universe multiverse" | sudo tee /etc/apt/sources.list.d/ports-armhf.list
-          echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/ports-armhf.list
-          echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/ports-armhf.list
-          sudo apt-get update
-          sudo apt-cache policy libc6 libc6:armhf libgcc-s1:armhf libstdc++6:armhf libsystemd0:armhf libx11-6:armhf || true
-          sudo apt-get install -y -o Debug::pkgProblemResolver=yes \
-            libc6:armhf libgcc-s1:armhf libstdc++6:armhf \
-            libsystemd0:armhf libbsd0:armhf libmd0:armhf \
-            libx11-6:armhf libx11-xcb1:armhf \
-            g++-arm-linux-gnueabihf libasound2-dev:armhf libdbus-1-dev:armhf \
-            libgl1-mesa-dev:armhf libglib2.0-dev:armhf liblo-dev:armhf \
-            libx11-dev:armhf libxcursor-dev:armhf libxext-dev:armhf \
-            libxrandr-dev:armhf gperf qemu-user-static || true
-          sudo apt-get clean
       - uses: distrho/dpf-makefile-action@v1
         with:
           target: ${{ matrix.target }}
