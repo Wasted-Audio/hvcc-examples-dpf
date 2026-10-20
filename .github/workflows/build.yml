@@ -20,6 +20,11 @@ jobs:
     container:
       image: ubuntu:20.04
     steps:
+      - uses: actions/cache@v4
+        name: Cache python3.10
+        with:
+          path: /opt/python3.10
+          key: cpython-3.10.14-standalone-20240415-x86_64
       - name: Install git
         run: |
           apt-get update -qq && apt-get install -yqq --no-install-recommends ca-certificates curl git openssl
@@ -29,17 +34,15 @@ jobs:
           rm *.deb
       - name: Install python3.10
         run: |
-          cd /tmp
-          curl -sSLO https://github.com/astral-sh/python-build-standalone/releases/download/20240415/cpython-3.10.14+20240415-x86_64-unknown-linux-gnu-install_only.tar.gz
-          tar xf cpython-3.10.14+20240415-x86_64-unknown-linux-gnu-install_only.tar.gz
-          mv python /opt/python3.10
+          if [ ! -x /opt/python3.10/bin/python3.10 ]; then
+            cd /tmp
+            curl -sSLO https://github.com/astral-sh/python-build-standalone/releases/download/20240415/cpython-3.10.14+20240415-x86_64-unknown-linux-gnu-install_only.tar.gz
+            tar xf cpython-3.10.14+20240415-x86_64-unknown-linux-gnu-install_only.tar.gz
+            mv python /opt/python3.10
+          fi
           ln -sf /opt/python3.10/bin/python3.10 /usr/bin/python3.10
           ln -sf /opt/python3.10/bin/python3.10 /usr/bin/python3
-          /usr/bin/python3 -m ensurepip --upgrade
-      - name: Install pip
-        run:  |
-          python3.10 -m ensurepip --upgrade
-          python3.10 -m pip install --upgrade pip
+          curl -sS https://bootstrap.pypa.io/get-pip.py | /usr/bin/python3
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
