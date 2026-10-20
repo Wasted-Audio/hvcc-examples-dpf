@@ -43,6 +43,7 @@ jobs:
           ln -sf /opt/python3.10/bin/python3.10 /usr/bin/python3.10
           ln -sf /opt/python3.10/bin/python3.10 /usr/bin/python3
           curl -sS https://bootstrap.pypa.io/get-pip.py | /usr/bin/python3
+          echo "PATH=/opt/python3.10/bin:$PATH" >> "$GITHUB_ENV"
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
