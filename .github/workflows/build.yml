@@ -29,9 +29,8 @@ jobs:
           rm *.deb
       - name: Install python3.10
         run: |
-          apt-get update -qq
-          apt-get install -yqq --no-install-recommends software-properties-common
-          add-apt-repository -y ppa:deadsnakes/ppa
+          echo "deb http://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu focal main" > /etc/apt/sources.list.d/deadsnakes.list
+          apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
           apt-get update -qq
           apt-get install -yqq python3.10 python3.10-venv
           update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
